@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct FaltappApp: App {
+    
+    init() {
+            try? Tips.configure()
+        }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
         }
     }
 }

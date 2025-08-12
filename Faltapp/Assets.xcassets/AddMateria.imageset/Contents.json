@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "custom.plus.circle.fill 1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "custom.plus.circle.fill 2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "custom.plus.circle.fill 3.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
