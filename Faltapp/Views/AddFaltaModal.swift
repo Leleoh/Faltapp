@@ -15,6 +15,14 @@ struct AddFaltaModal: View {
 //    @State private var selectedDate = Date()
     @State private var selectedDates: [Date] = []
     
+    var onComplete: (([Date]) -> Void)?
+    
+    init(faltasAtuais: [Date], onComplete: @escaping (([Date]) -> Void)){
+        
+        self._selectedDates = State(initialValue: faltasAtuais)
+        self.onComplete = onComplete
+    }
+    
     var body: some View {
         
         NavigationView{
@@ -45,6 +53,7 @@ struct AddFaltaModal: View {
                 ToolbarItem(placement: .confirmationAction){
                     Button("Adicionar"){
                         print("Faltas: \(selectedDates)")
+                        onComplete?(selectedDates)
                         dismiss()
                     }
                 }
@@ -61,6 +70,7 @@ struct AddFaltaModal: View {
     }
 }
 
-#Preview {
-    AddFaltaModal()
-}
+//#Preview {
+//    //argumentos necessários para a visualização.
+//    AddFaltaModal()
+//}

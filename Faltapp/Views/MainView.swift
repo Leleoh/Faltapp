@@ -64,10 +64,10 @@ struct MainView: View {
                         // ✅ Iteramos pelos índices para poder modificar o array
                         ForEach($materias) { $materia in
                             CardMateria(
-                                materia: materia, progress: 0,
-                                onAdicionarFalta: {
+                                materia: materia, progress: Double(materia.faltas) / Double(materia.maximoFaltas),
+                                onAdicionarFalta: {novasDatas in 
                                     // Quando o botão no card é clicado, definimos a matéria a ser editada
-                                    self.materiaSelecionada = materia
+                                    materia.datasFaltas = novasDatas
                                 }
                             )
                         }
@@ -81,18 +81,18 @@ struct MainView: View {
             
             
             
-            
-            .navigationTitle("Matérias")
-            .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
-            .toolbarVisibility(.visible, for: .navigationBar)
-            
-            .sheet(isPresented: $showAddMateriaModal) {
-                AddMateriaModal{ materia in
-                    materias.append(materia)
-                    showAddMateriaModal = false
-                    
-                }
+        .navigationTitle("Matérias")
+        .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
+        .toolbarVisibility(.visible, for: .navigationBar)
+        
+        .sheet(isPresented: $showAddMateriaModal) {
+            AddMateriaModal{ materia in
+                materias.append(materia)
+                showAddMateriaModal = false
+                
             }
+        }
+            
         }//Fim da some view
     }//Fim da view principal
     

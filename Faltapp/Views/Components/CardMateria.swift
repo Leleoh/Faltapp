@@ -8,21 +8,25 @@
 import SwiftUI
 
 struct Materia: Identifiable{
-    let id = UUID()
-    let titulo: String
-    let maximoFaltas: Int
+    var id = UUID()
+    var titulo: String
+    var maximoFaltas: Int
     
     var datasFaltas: [Date] = []
     
     var faltas: Int {
             return datasFaltas.count
         }
+    
+//    init(id: UUID = UUID(), titulo: String, maximoFaltas: Int, datasFaltas: [Date] = []) {
+//            self.id = id
+//            self.titulo = titulo
+//            self.maximoFaltas = maximoFaltas
+//            self.datasFaltas = datasFaltas
+//        }
 }
 
 struct CardMateria: View {
-    
-    let materia: Materia
-    var progress: Double
     
     var faltasColor: Color {
         switch progress {
@@ -40,9 +44,16 @@ struct CardMateria: View {
         }
     }
     
-    @State private var showAddFaltaModal: Bool = false
     
-    var onAdicionarFalta: (() -> Void)?
+    let materia: Materia
+    var progress: Double
+    
+    
+    @State private var showAddFaltaModal: Bool = false
+    @State private var datasFaltas: [Date] = []
+    
+//    var onAdicionarFalta: (() -> Void)?
+    var onAdicionarFalta: ((_ novasDatas: [Date]) -> Void)?
     
     var body: some View {
         VStack(spacing: 0){
@@ -98,8 +109,9 @@ struct CardMateria: View {
                         .fontWeight(.semibold)
                     Button{
                         print("Adicionar falta clicado")
+                        datasFaltas = materia.datasFaltas
                         showAddFaltaModal = true
-                        onAdicionarFalta?()
+//                        onAdicionarFalta?()
                     }label: {
                         Text("Adicionar falta")
                             .foregroundStyle(.white)
@@ -113,7 +125,10 @@ struct CardMateria: View {
                     }
                     .padding(.top, 8)
                     .sheet(isPresented: $showAddFaltaModal){
-                        AddFaltaModal()
+                        AddFaltaModal(faltasAtuais: datasFaltas){ novasDatas in
+                            onAdicionarFalta?(novasDatas) // Envia para a main
+                            showAddFaltaModal = false
+                        }
                     }
                     
                 }
@@ -130,9 +145,9 @@ struct CardMateria: View {
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(radius: 4)
         .frame(maxWidth: .infinity)
-        .sheet(isPresented: $showAddFaltaModal) {
-            AddFaltaModal()
-        }
+//        .sheet(isPresented: $showAddFaltaModal) {
+//            AddFaltaModal(faltasAtuais: <#T##[Date]#>, onComplete: <#T##([Date]) -> Void#>)
+//        }
         
         
     
