@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditMateriaModal: View {
     
     @Environment(\.dismiss) var dismiss
-//    @Environment(\.modelContext) private var modelContext
+    @Environment(\.modelContext) private var modelContext
     
     @State private var nome = ""
     
@@ -110,8 +111,8 @@ struct EditMateriaModal: View {
                 
                 
                 Button(action: {
-//                    modelContext.delete(materia)
-//                    try? modelContext.save()
+                    modelContext.delete(materia)
+                    try? modelContext.save()
                     dismiss()
                 }){
                     Text("Excluir matéria")

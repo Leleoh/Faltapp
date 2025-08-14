@@ -33,6 +33,7 @@ struct CardMateria: View {
     
     
     @State private var showAddFaltaModal: Bool = false
+    @State private var showEditMateriaModal: Bool = false
     @State private var datasFaltas: [Date] = []
     
 //    var onAdicionarFalta: (() -> Void)?
@@ -52,10 +53,19 @@ struct CardMateria: View {
                         .padding(.leading, 16)
                     Spacer()
                     
-                    Image(systemName: "square.and.pencil")
-                        .foregroundStyle(.blue)
-                        .font(.system(size: 28))
-                        .padding(.trailing, 16)
+                    Button {
+                        showEditMateriaModal = true
+                    }label: {
+                        Image(systemName: "square.and.pencil")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: 28))
+                            .padding(.trailing, 16)
+                    }
+                    .sheet(isPresented: $showEditMateriaModal) {
+                        EditMateriaModal(materia: materia)
+                    }
+                    
+                    
                         
                 }
             }//Fim da ZStack
@@ -115,6 +125,7 @@ struct CardMateria: View {
                     }
                     
                 }
+                
 
                 Spacer()
             }
