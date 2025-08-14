@@ -6,25 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Materia: Identifiable{
-    var id = UUID()
-    var titulo: String
-    var maximoFaltas: Int
-    
-    var datasFaltas: [Date] = []
-    
-    var faltas: Int {
-            return datasFaltas.count
-        }
-    
-//    init(id: UUID = UUID(), titulo: String, maximoFaltas: Int, datasFaltas: [Date] = []) {
-//            self.id = id
-//            self.titulo = titulo
-//            self.maximoFaltas = maximoFaltas
-//            self.datasFaltas = datasFaltas
-//        }
-}
 
 struct CardMateria: View {
     
@@ -45,7 +28,7 @@ struct CardMateria: View {
     }
     
     
-    let materia: Materia
+    var materia: Materia
     var progress: Double
     
     

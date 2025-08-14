@@ -6,21 +6,16 @@
 //
 
 import SwiftUI
-import TipKit
-
-struct AddTip: Tip {
-    var title: Text {
-        Text("Dica")
-    }
-    
-    var message: Text? {
-        Text("O nome será usado para identificar a matéria na lista.")
-    }
-}
+import SwiftData
 
 
 struct AddMateriaModal: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var modelContext
+    
+    var materia: Materia? = nil
+    
+    var isEditando: Bool { materia != nil }
     
     @State private var nome = ""
     
@@ -149,7 +144,10 @@ struct AddMateriaModal: View {
                     Button("Adicionar") {
                         let materia = Materia(titulo: nome, maximoFaltas: limiteFaltas)
                         print("Criado")
-                        AddMateria(materia)
+//                        AddMateria(materia)
+                        print(materia.titulo, materia.maximoFaltas)
+                        modelContext.insert(materia)
+                        try? modelContext.save()
                         dismiss()
                     }
                     .disabled(nome.isEmpty)

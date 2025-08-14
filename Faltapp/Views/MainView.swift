@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct MainView: View {
     
+    @Environment(\.modelContext) var modelContext
     
     @State private var showAddMateriaModal: Bool = false
     @State private var showAddFaltaModal: Bool = false
-    @Binding var materias: [Materia]
+//    @Binding var materias: [Materia]
+    @Query var materias: [Materia]
     
     @State private var materiaSelecionada: Materia?
+    
+    
     
     var body: some View {
         
@@ -62,12 +68,13 @@ struct MainView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         // ✅ Iteramos pelos índices para poder modificar o array
-                        ForEach($materias) { $materia in
+                        ForEach(materias) { materia in
                             CardMateria(
                                 materia: materia, progress: Double(materia.faltas) / Double(materia.maximoFaltas),
                                 onAdicionarFalta: {novasDatas in 
                                     // Quando o botão no card é clicado, definimos a matéria a ser editada
                                     materia.datasFaltas = novasDatas
+                                    try? modelContext.save()
                                 }
                             )
                         }
@@ -84,10 +91,22 @@ struct MainView: View {
         .navigationTitle("Matérias")
         .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
         .toolbarVisibility(.visible, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showAddMateriaModal = true
+                } label: {
+                    Image("AddMateria")
+                        .resizable()
+                        .frame(width: 34, height: 34)
+                        .scaledToFit()
+                }
+            }
+        }
         
         .sheet(isPresented: $showAddMateriaModal) {
             AddMateriaModal{ materia in
-                materias.append(materia)
+                modelContext.insert(materia)
                 showAddMateriaModal = false
                 
             }
@@ -97,12 +116,12 @@ struct MainView: View {
     }//Fim da view principal
     
     
-#Preview {
-    // Para o preview funcionar, criamos um "binding constante"
-    NavigationView {
-        MainView(materias: .constant([
-            Materia(titulo: "Exemplo 1", maximoFaltas: 20),
-            Materia(titulo: "Exemplo 2", maximoFaltas: 18)
-        ]))
-    }
-}
+//#Preview {
+//    // Para o preview funcionar, criamos um "binding constante"
+//    NavigationView {
+//        MainView(materias: .constant([
+//            Materia(titulo: "Exemplo 1", maximoFaltas: 20),
+//            Materia(titulo: "Exemplo 2", maximoFaltas: 18)
+//        ]))
+//    }
+//}

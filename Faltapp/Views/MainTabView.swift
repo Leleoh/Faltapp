@@ -17,21 +17,9 @@ struct MainTabView: View {
         
         TabView {
             NavigationStack {
-                MainView(materias: $materias)
+                MainView()
                     .navigationTitle(Text("Matérias"))
                     .toolbarBackgroundVisibility(.visible)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                showAddMateriaModal = true
-                            } label: {
-                                Image("AddMateria")
-                                    .resizable()
-                                    .frame(width: 34, height: 34)
-                                    .scaledToFit()
-                            }
-                        }
-                    }
             }
             .tabItem {
                 Image(systemName: "list.clipboard.fill")

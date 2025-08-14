@@ -179,5 +179,5 @@ struct EditMateriaModal: View {
 }
 
 //#Preview {
-//    EditMateriaModal(, materia: <#Materia#>)
+//    EditMateriaModal()
 //}
