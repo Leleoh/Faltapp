@@ -135,19 +135,28 @@ struct EditMateriaModal: View {
                 
             .navigationTitle("Editar matéria")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                    nome = materia.titulo
+                    faltasSegunda = materia.faltasSegunda
+                    faltasTerca = materia.faltasTerca
+                    faltasQuarta = materia.faltasQuarta
+                    faltasQuinta = materia.faltasQuinta
+                    faltasSexta = materia.faltasSexta
+                    faltasSabado = materia.faltasSabado
+                }
             .toolbar{
                 ToolbarItem(placement: .confirmationAction){
                     Button("Salvar"){
                         print("Salvar clicado")
-//                        materia.titulo = nome
-//                        materia.faltasSegunda = faltasSegunda
-//                        materia.faltasTerca = faltasTerca
-//                        materia.faltasQuarta = faltasQuarta
-//                        materia.faltasQuinta = faltasQuinta
-//                        materia.faltasSexta = faltasSexta
-//                        materia.faltasSabado = faltasSabado
+                        materia.titulo = nome
+                        materia.faltasSegunda = faltasSegunda
+                        materia.faltasTerca = faltasTerca
+                        materia.faltasQuarta = faltasQuarta
+                        materia.faltasQuinta = faltasQuinta
+                        materia.faltasSexta = faltasSexta
+                        materia.faltasSabado = faltasSabado
                         
-//                        try? modelContext.save()
+                        try? modelContext.save()
                         dismiss()
                     }
                 }

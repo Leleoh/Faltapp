@@ -72,5 +72,5 @@ struct AddFaltaModal: View {
 
 //#Preview {
 //    //argumentos necessários para a visualização.
-//    AddFaltaModal()
+//    AddFaltaModal(faltasAtuais: [], onComplete: <#([Date]) -> Void#>)
 //}

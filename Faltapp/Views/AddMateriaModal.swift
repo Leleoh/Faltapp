@@ -142,7 +142,16 @@ struct AddMateriaModal: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Adicionar") {
-                        let materia = Materia(titulo: nome, maximoFaltas: limiteFaltas)
+                        let materia = Materia(
+                            titulo: nome,
+                            maximoFaltas: limiteFaltas,
+                            faltasSegunda: faltasSegunda,
+                            faltasTerca: faltasTerca,
+                            faltasQuarta: faltasQuarta,
+                            faltasQuinta: faltasQuinta,
+                            faltasSexta: faltasSexta,
+                            faltasSabado: faltasSabado
+                        )
                         print("Criado")
 //                        AddMateria(materia)
                         print(materia.titulo, materia.maximoFaltas)
