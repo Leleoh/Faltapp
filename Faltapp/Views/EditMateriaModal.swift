@@ -16,16 +16,16 @@ struct EditMateriaModal: View {
     @State private var nome = ""
     
     //States
-    @State private var faltasSegunda = 0
-    @State private var faltasTerca = 0
-    @State private var faltasQuarta = 0
-    @State private var faltasQuinta = 0
-    @State private var faltasSexta = 0
-    @State private var faltasSabado = 0
+//    @State private var faltasSegunda = 0
+//    @State private var faltasTerca = 0
+//    @State private var faltasQuarta = 0
+//    @State private var faltasQuinta = 0
+//    @State private var faltasSexta = 0
+//    @State private var faltasSabado = 0
     
     @State private var showManualControlModal: Bool = false
     
-    var materia: Materia
+    @Bindable var materia: Materia
     
     
     var body: some View {
@@ -35,7 +35,7 @@ struct EditMateriaModal: View {
             
             Form{
                 Section(header: Text("Nome da matéria")){
-                    TextField("Nome atual da matéria", text: $nome)
+                    TextField("Nome atual da matéria", text: $materia.titulo)
                         .padding(.leading, 8)
                 }
                 .foregroundStyle(.white)
@@ -46,7 +46,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Segunda-feira")
                         Spacer()
-                        FaltaStepper(value: $faltasSegunda)
+                        FaltaStepper(value: $materia.faltasSegunda)
                     }
                 }
                 
@@ -54,7 +54,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Terça-feira")
                         Spacer()
-                        FaltaStepper(value: $faltasTerca)
+                        FaltaStepper(value: $materia.faltasTerca)
                     }
                 }
                 
@@ -62,7 +62,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Quarta-feira")
                         Spacer()
-                        FaltaStepper(value: $faltasQuarta)
+                        FaltaStepper(value: $materia.faltasQuarta)
                     }
                 }
                 
@@ -70,7 +70,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Quinta-feira")
                         Spacer()
-                        FaltaStepper(value: $faltasQuinta)
+                        FaltaStepper(value: $materia.faltasQuinta)
                     }
                 }
                 
@@ -78,7 +78,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Sexta-feira")
                         Spacer()
-                        FaltaStepper(value: $faltasSexta)
+                        FaltaStepper(value: $materia.faltasSexta)
                     }
                 }
                 
@@ -86,7 +86,7 @@ struct EditMateriaModal: View {
                     HStack{
                         Text("Sábado")
                         Spacer()
-                        FaltaStepper(value: $faltasSabado)
+                        FaltaStepper(value: $materia.faltasSabado)
                     }
                 }
                 
@@ -135,28 +135,28 @@ struct EditMateriaModal: View {
                 
             .navigationTitle("Editar matéria")
             .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                    nome = materia.titulo
-                    faltasSegunda = materia.faltasSegunda
-                    faltasTerca = materia.faltasTerca
-                    faltasQuarta = materia.faltasQuarta
-                    faltasQuinta = materia.faltasQuinta
-                    faltasSexta = materia.faltasSexta
-                    faltasSabado = materia.faltasSabado
-                }
+//            .onAppear {
+//                    nome = materia.titulo
+//                    faltasSegunda = materia.faltasSegunda
+//                    faltasTerca = materia.faltasTerca
+//                    faltasQuarta = materia.faltasQuarta
+//                    faltasQuinta = materia.faltasQuinta
+//                    faltasSexta = materia.faltasSexta
+//                    faltasSabado = materia.faltasSabado
+//                }
             .toolbar{
                 ToolbarItem(placement: .confirmationAction){
                     Button("Salvar"){
                         print("Salvar clicado")
-                        materia.titulo = nome
-                        materia.faltasSegunda = faltasSegunda
-                        materia.faltasTerca = faltasTerca
-                        materia.faltasQuarta = faltasQuarta
-                        materia.faltasQuinta = faltasQuinta
-                        materia.faltasSexta = faltasSexta
-                        materia.faltasSabado = faltasSabado
-                        
-                        try? modelContext.save()
+//                        materia.titulo = nome
+//                        materia.faltasSegunda = faltasSegunda
+//                        materia.faltasTerca = faltasTerca
+//                        materia.faltasQuarta = faltasQuarta
+//                        materia.faltasQuinta = faltasQuinta
+//                        materia.faltasSexta = faltasSexta
+//                        materia.faltasSabado = faltasSabado
+//                        
+//                        try? modelContext.save()
                         dismiss()
                     }
                 }

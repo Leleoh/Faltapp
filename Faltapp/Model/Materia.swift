@@ -12,8 +12,14 @@ import SwiftData
 final class Materia: Identifiable {
     var id = UUID()
     var titulo: String
-    var maximoFaltas: Int
+//    var maximoFaltas: Int
     var datasFaltas: [Date]
+    
+    var maximoFaltas: Int {
+            let somaFaltas = faltasSegunda + faltasTerca + faltasQuarta + faltasQuinta + faltasSexta + faltasSabado
+        return somaFaltas * 2
+        }
+    
     
     var faltasSegunda: Int
     var faltasTerca: Int
@@ -37,7 +43,7 @@ final class Materia: Identifiable {
          datasFaltas: [Date] = []) {
         
         self.titulo = titulo
-        self.maximoFaltas = maximoFaltas
+//        self.maximoFaltas = maximoFaltas
         self.faltasSegunda = faltasSegunda
         self.faltasTerca = faltasTerca
         self.faltasQuarta = faltasQuarta
