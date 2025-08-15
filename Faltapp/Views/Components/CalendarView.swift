@@ -21,7 +21,15 @@ struct CalendarView: UIViewRepresentable {
         return calendar
     }
     
-    func updateUIView(_ uiView: FSCalendar, context: Context) {}
+    func updateUIView(_ uiView: FSCalendar, context: Context) {
+        // Limpa seleções atuais
+        uiView.selectedDates.forEach { uiView.deselect($0) }
+        
+        // Seleciona novamente todas as datas do array
+        for date in selectedDates {
+            uiView.select(date)
+        }
+    }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)

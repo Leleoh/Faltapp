@@ -82,6 +82,7 @@ struct MainView: View {
                     .padding(.top, 32)
                     .padding(.horizontal, 8)
                 }
+                .background(Color(UIColor.systemBackground))
             }
         }
             
@@ -91,6 +92,8 @@ struct MainView: View {
         .navigationTitle("Matérias")
         .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
         .toolbarVisibility(.visible, for: .navigationBar)
+        .toolbarBackground(Color(UIColor.tabViewBG), for: .tabBar)
+        .toolbarBackgroundVisibility(.visible, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {

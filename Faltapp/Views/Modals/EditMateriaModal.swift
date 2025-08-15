@@ -41,6 +41,15 @@ struct EditMateriaModal: View {
                 .foregroundStyle(.white)
                 .padding(.leading, -16)
                 
+//                Section(header: Text("Nome da matéria")){
+//                    TextField("Nome atual da matéria", text: $materia.titulo)
+//                        .padding(.leading, 8)
+//                }
+//                .foregroundStyle(.white)
+//                .padding(.leading, -16)
+//                .padding(.top, -16)
+                
+                
                 
                 Section{
                     HStack{
@@ -91,23 +100,22 @@ struct EditMateriaModal: View {
                 }
                 
                 
-                
-                Button(action: {
-                    showManualControlModal = true
-                }){
-                    Text("Controle manual de faltas")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color(UIColor.systemBlue))
-                        )
-                }
-                .frame(maxWidth: .infinity)
-
-                .listRowInsets(EdgeInsets())
-                .listRowBackground(Color.clear)
+//                Button(action: {
+//                    showManualControlModal = true
+//                }){
+//                    Text("Controle manual de faltas")
+//                        .foregroundColor(.white)
+//                        .frame(maxWidth: .infinity)
+//                        .padding(.vertical, 12)
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 8)
+//                                .fill(Color(UIColor.systemBlue))
+//                        )
+//                }
+//                .frame(maxWidth: .infinity)
+//
+//                .listRowInsets(EdgeInsets())
+//                .listRowBackground(Color.clear)
                 
                 
                 Button(action: {
@@ -125,38 +133,20 @@ struct EditMateriaModal: View {
                         )
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.top, 24)
+                .padding(.top, 12)
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
-                
                 
                 
             }//Fim do form
                 
             .navigationTitle("Editar matéria")
             .navigationBarTitleDisplayMode(.inline)
-//            .onAppear {
-//                    nome = materia.titulo
-//                    faltasSegunda = materia.faltasSegunda
-//                    faltasTerca = materia.faltasTerca
-//                    faltasQuarta = materia.faltasQuarta
-//                    faltasQuinta = materia.faltasQuinta
-//                    faltasSexta = materia.faltasSexta
-//                    faltasSabado = materia.faltasSabado
-//                }
+
             .toolbar{
                 ToolbarItem(placement: .confirmationAction){
                     Button("Salvar"){
                         print("Salvar clicado")
-//                        materia.titulo = nome
-//                        materia.faltasSegunda = faltasSegunda
-//                        materia.faltasTerca = faltasTerca
-//                        materia.faltasQuarta = faltasQuarta
-//                        materia.faltasQuinta = faltasQuinta
-//                        materia.faltasSexta = faltasSexta
-//                        materia.faltasSabado = faltasSabado
-//                        
-//                        try? modelContext.save()
                         dismiss()
                     }
                 }
@@ -172,17 +162,8 @@ struct EditMateriaModal: View {
                     
             }
             
-    
-                    
-                
-                
-            
-            
-            
+
         }//Fim navigation view
-        
-        
-        
         
     }//Fim da Viewbody
         
