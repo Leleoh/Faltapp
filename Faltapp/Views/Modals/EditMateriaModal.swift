@@ -14,6 +14,7 @@ struct EditMateriaModal: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var nome = ""
+    @State private var showDeleteConfirmation = false
     
     //States
 //    @State private var faltasSegunda = 0
@@ -119,10 +120,8 @@ struct EditMateriaModal: View {
                 
                 
                 Button(action: {
-                    modelContext.delete(materia)
-                    try? modelContext.save()
-                    dismiss()
-                }){
+                    showDeleteConfirmation = true
+                }) {
                     Text("Excluir matéria")
                         .foregroundColor(.white)
                         .frame(maxWidth: 135)
@@ -136,6 +135,16 @@ struct EditMateriaModal: View {
                 .padding(.top, 12)
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
+                .alert("Excluir matéria?", isPresented: $showDeleteConfirmation) {
+                    Button("Cancelar", role: .cancel) { }
+                    Button("Excluir", role: .destructive) {
+                        modelContext.delete(materia)
+                        try? modelContext.save()
+                        dismiss()
+                    }
+                } message: {
+                    Text("Essa ação não pode ser desfeita.")
+                }
                 
                 
             }//Fim do form

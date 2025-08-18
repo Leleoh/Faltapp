@@ -26,6 +26,8 @@ struct MainView: View {
         
         VStack(spacing: 0){
             
+
+            
             // MARK: Empty state
             if materias.isEmpty{
                 VStack{
@@ -119,12 +121,6 @@ struct MainView: View {
     }//Fim da view principal
     
     
-//#Preview {
-//    // Para o preview funcionar, criamos um "binding constante"
-//    NavigationView {
-//        MainView(materias: .constant([
-//            Materia(titulo: "Exemplo 1", maximoFaltas: 20),
-//            Materia(titulo: "Exemplo 2", maximoFaltas: 18)
-//        ]))
-//    }
-//}
+#Preview {
+    MainView()
+}

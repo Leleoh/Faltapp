@@ -4,6 +4,7 @@ import FSCalendar
 struct CalendarView: UIViewRepresentable {
     
     @Binding var selectedDates: [Date]
+    var onDateTap: ((Date) -> Void)?
     
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
@@ -47,7 +48,8 @@ struct CalendarView: UIViewRepresentable {
         }
         
         func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-            parent.selectedDates.removeAll { Calendar.current.isDate($0, inSameDayAs: date) }
+            parent.onDateTap?(date)
+//            parent.selectedDates.removeAll { Calendar.current.isDate($0, inSameDayAs: date) }
         }
     }
 }

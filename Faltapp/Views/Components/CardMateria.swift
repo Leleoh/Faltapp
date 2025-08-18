@@ -82,7 +82,7 @@ struct CardMateria: View {
                     
                     Text("\(materia.faltas)/\(materia.maximoFaltas)")
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(.labelsPrimary)
                 }
                 
                 Spacer()
@@ -106,7 +106,7 @@ struct CardMateria: View {
                         showAddFaltaModal = true
 //                        onAdicionarFalta?()
                     }label: {
-                        Text("Adicionar falta")
+                        Text("Registrar faltas")
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 28)

@@ -12,8 +12,10 @@ struct AddFaltaModal: View {
     
     @Environment(\.dismiss) var dismiss
     
-//    @State private var selectedDate = Date()
+
     @State private var selectedDates: [Date] = []
+    @State private var dateToRemove: Date? = nil
+    @State private var showRemoveAlert = false
     
     var onComplete: (([Date]) -> Void)?
     
@@ -28,8 +30,12 @@ struct AddFaltaModal: View {
         NavigationView{
             
             VStack(){
-                Text("Você pode clicar nos dias em que faltou para registrar uma falta")
+                Text("Você pode clicar nos dias em que faltou para adicionar ou remover faltas.")
+                    .font(.title2)
                     .padding(.top, 80)
+                    .padding(.horizontal, 16)
+                    .multilineTextAlignment(.center)
+                    
                 Spacer()
                 
 //                DatePicker(
@@ -40,10 +46,20 @@ struct AddFaltaModal: View {
 //                .datePickerStyle(.graphical)
 //                .padding()
 //                Spacer()
-                CalendarView(selectedDates: $selectedDates)
-                    .frame(height: 350)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
+                CalendarView(
+                    selectedDates: $selectedDates,
+                    onDateTap: { date in
+                        if selectedDates.contains(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
+                            dateToRemove = date
+                            showRemoveAlert = true
+                        } else {
+                            selectedDates.append(date)
+                        }
+                    }
+                )
+                .frame(height: 350)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 16)
                 Spacer()
             }
                         
@@ -62,6 +78,16 @@ struct AddFaltaModal: View {
                         dismiss()
                     }
                 }
+            }
+            .alert("Remover falta?", isPresented: $showRemoveAlert) {
+                Button("Cancelar", role: .cancel) { }
+                Button("Remover", role: .destructive) {
+                    if let date = dateToRemove {
+                        selectedDates.removeAll { Calendar.current.isDate($0, inSameDayAs: date) }
+                    }
+                }
+            } message: {
+                Text("Tem certeza que deseja remover esta falta?")
             }
             
             
