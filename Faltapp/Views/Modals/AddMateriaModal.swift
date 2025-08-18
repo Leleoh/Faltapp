@@ -129,9 +129,11 @@ struct AddMateriaModal: View {
                     
                 }
             //Fim vstack
-//            .onTapGesture {
-////                UIApplication.shared.dismissKeyboard()
-//            }
+            .simultaneousGesture(
+            TapGesture().onEnded { _ in
+                UIApplication.shared.dismissKeyboard()
+            }
+        )
             
             
             

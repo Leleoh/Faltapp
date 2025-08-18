@@ -45,8 +45,6 @@ struct Notifications: View {
                     
                     Spacer()
                 }
-                .navigationTitle("Notificações")
-                .navigationBarTitleDisplayMode(.large)
 
             
             
@@ -107,8 +105,8 @@ struct Notifications: View {
         content.sound = .default
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 22
-        dateComponents.minute = 0
+        dateComponents.hour = 10
+        dateComponents.minute = 26
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         let request = UNNotificationRequest(identifier: "daily_reminder", content: content, trigger: trigger)

@@ -33,7 +33,7 @@ struct ConfigsView: View {
                         
                         Divider()
                         
-                        configItem(titulo: "Aparência")
+//                        configItem(titulo: "Aparência")
                         
                         Divider()
                         
@@ -70,7 +70,6 @@ struct ConfigsView: View {
                         .buttonStyle(.plain)
                         
                         Divider()
-                        configItem(titulo: "FAQs")
                     }
                     .background(Color(UIColor.tertiarySystemBackground))
                     .cornerRadius(10)

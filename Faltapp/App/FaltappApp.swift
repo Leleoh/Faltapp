@@ -14,6 +14,7 @@ struct FaltappApp: App {
     var body: some Scene {
         WindowGroup {
             MainTabView()
+                .preferredColorScheme(.dark)
         }
         .modelContainer(for: Materia.self)
     }

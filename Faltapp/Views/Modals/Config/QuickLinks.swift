@@ -41,7 +41,6 @@ struct QuickLinksView: View {
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
-            .navigationTitle("Links Rápidos")
             .background(Color(UIColor.backgroundsSecondary))
     }
 }
