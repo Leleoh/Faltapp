@@ -64,7 +64,10 @@ struct Support: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    Spacer()
+                    Divider()
+                    
+//                    Spacer()
+                    
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 32)

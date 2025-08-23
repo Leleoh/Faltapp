@@ -17,7 +17,7 @@ import UserNotifications
 
 struct Notifications: View {
     
-    @State private var notificationsEnabled = false
+    @AppStorage("notifications_enabled") private var notificationsEnabled = false
     @State private var showSettingsAlert = false
     
     var body: some View {
@@ -105,8 +105,8 @@ struct Notifications: View {
         content.sound = .default
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 10
-        dateComponents.minute = 26
+        dateComponents.hour = 21
+        dateComponents.minute = 30
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         let request = UNNotificationRequest(identifier: "daily_reminder", content: content, trigger: trigger)

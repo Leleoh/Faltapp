@@ -14,7 +14,7 @@ struct QuickLinksView: View {
         ("E-mail UFRGS (Chasque)", "https://webmail.ufrgs.br/chasque/"),
         ("Calendário Escolar", "https://www.ufrgs.br/prograd/prograd/calendario-escolar/"),
         ("Mapas dos campus",
-        "https://www.ufrgs.br/prograd/prograd/mapa-dos-campus"),
+        "https://www1.ufrgs.br/infraestrutura/geolocation/index.php?verb=pan&codpredio="),
         ("TUAUFRGS", "https://www.ufrgs.br/tuaufrgs/"),
         ("Horários/Vagas de Cadeiras", "https://www1.ufrgs.br/graduacao/ArquivosCompartilhados/SelGrupoMatricula.php?tipo=gm&ret=../../graduacao/ArquivosCompartilhados/Horariosvagas.php")
     ]

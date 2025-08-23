@@ -2,9 +2,8 @@ import SwiftUI
 
 struct ConfigsView: View {
     var body: some View {
-        NavigationStack {   // << precisa disso para ativar a navegação
+        NavigationStack {
             ZStack {
-                // Background que ocupa toda a tela
                 Color(UIColor.backgroundsSecondary)
                     .ignoresSafeArea()
 
@@ -33,10 +32,6 @@ struct ConfigsView: View {
                         
                         Divider()
                         
-//                        configItem(titulo: "Aparência")
-                        
-                        Divider()
-                        
                         NavigationLink(destination: About()){
                             configItem(titulo: "Sobre o app")
                         }
@@ -59,7 +54,7 @@ struct ConfigsView: View {
                     
                     VStack(spacing: 0) {
                         NavigationLink(destination: Support()){
-                            configItem(titulo: "Suporte e sugestões")
+                            configItem(titulo: "Suporte e contato")
                         }
                         .buttonStyle(.plain)
                         Divider()
@@ -68,19 +63,53 @@ struct ConfigsView: View {
                             configItem(titulo: "Links rápidos")
                         }
                         .buttonStyle(.plain)
-                        
-                        Divider()
                     }
                     .background(Color(UIColor.tertiarySystemBackground))
                     .cornerRadius(10)
                     .shadow(radius: 2)
                     .padding(.horizontal)
                     
+                    // Seção de Instagram (promoção do dev)
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("Siga o desenvolvedor :)")
+                                .font(.system(size: 20))
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
+                        .padding(.leading, 16)
+                        .padding(.top, 16)
+                        
+                        HStack {
+                            Image(systemName: "camera")
+                                .foregroundColor(.graysGray2)
+                            Text("@leonel.ferraz")
+                                .foregroundColor(.blue)
+                                .underline()
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(UIColor.tertiarySystemBackground))
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            
+                            if let appURL = URL(string: "instagram://user?username=leonel.ferraz"),
+                               UIApplication.shared.canOpenURL(appURL) {
+                                UIApplication.shared.open(appURL)
+                            } else if let webURL = URL(string: "https://instagram.com/leonel.ferraz") {
+                                UIApplication.shared.open(webURL)
+                            }
+                        }
+                    }
+                    .padding(.top, 24)
+                    
                     Spacer()
                 }
                 .padding(.top, 24)
             }
-            .navigationTitle("Configurações") // título da tela
+            .navigationTitle("Configurações")
             .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
             .toolbarVisibility(.visible, for: .navigationBar)
             .toolbarBackground(Color(UIColor.tabViewBG), for: .tabBar)

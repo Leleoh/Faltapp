@@ -9,10 +9,8 @@ import SwiftUI
 
 struct AddFaltaModal: View {
     
-    
     @Environment(\.dismiss) var dismiss
     
-
     @State private var selectedDates: [Date] = []
     @State private var dateToRemove: Date? = nil
     @State private var showRemoveAlert = false
@@ -38,14 +36,6 @@ struct AddFaltaModal: View {
                     
                 Spacer()
                 
-//                DatePicker(
-//                    "",
-//                    selection: $selectedDate,
-//                    displayedComponents: [.date]
-//                )
-//                .datePickerStyle(.graphical)
-//                .padding()
-//                Spacer()
                 CalendarView(
                     selectedDates: $selectedDates,
                     onDateTap: { date in
@@ -67,7 +57,7 @@ struct AddFaltaModal: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .confirmationAction){
-                    Button("Adicionar"){
+                    Button("Salvar"){
                         print("Faltas: \(selectedDates)")
                         onComplete?(selectedDates)
                         dismiss()
@@ -96,7 +86,3 @@ struct AddFaltaModal: View {
     }
 }
 
-//#Preview {
-//    //argumentos necessários para a visualização.
-//    AddFaltaModal(faltasAtuais: [], onComplete: <#([Date]) -> Void#>)
-//}
