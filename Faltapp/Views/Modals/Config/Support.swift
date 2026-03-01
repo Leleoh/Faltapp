@@ -73,7 +73,8 @@ struct Support: View {
                 .padding(.top, 32)
             }
         }
-        
+        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
     }
 }
 

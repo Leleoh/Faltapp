@@ -14,7 +14,7 @@ struct About: View {
         ZStack {
             Color(UIColor.backgroundsSecondary)
                 .ignoresSafeArea()
-            
+
             VStack(alignment: .leading){
                 Text("Sobre o app")
                     .font(.title)
@@ -27,14 +27,14 @@ struct About: View {
                     .font(.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Text("O Faltapp não tem nenhum vínculo com a UFRGS. Ele foi desenvolvido por um estudante, para ajudar outros estudantes.\nPor isso, o app não impede que você seja reprovado por faltas ele serve apenas para te ajudar a se organizar.\nUse-o com responsabilidade, faltar é sempre por sua conta e risco.")
+                Text("O Faltapp não tem nenhum vínculo com a UFRGS. Ele foi desenvolvido por um estudante, para ajudar outros estudantes.\nPor isso, o app não impede que você seja reprovado por faltas ele serve apenas para te ajudar a se organizar.\nUse-o com responsabilidade, faltar é sempre por sua conta e risco.\nAs funções foram desenvolvidas pensando num panorama geral dos cursos, então podem acontecer casos específicos aos quais o app não faz o tracking correto dos seus períodos.")
                     .multilineTextAlignment(.leading)
                 
                 Spacer()
                 Text("Desenvolvido por Leonel Ferraz")
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("V1.0")
+                Text("V1.2")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -43,7 +43,9 @@ struct About: View {
             }
             .padding(.horizontal)
         }
-        }
+        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+    }
 }
 
 #Preview {

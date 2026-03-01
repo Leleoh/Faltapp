@@ -42,6 +42,8 @@ struct QuickLinksView: View {
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .background(Color(UIColor.backgroundsSecondary))
+            .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
+            .toolbarBackgroundVisibility(.visible, for: .navigationBar)
     }
 }
 

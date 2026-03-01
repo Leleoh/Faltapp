@@ -22,7 +22,6 @@ struct Notifications: View {
     
     var body: some View {
         ZStack {
-            
             Color(UIColor.backgroundsSecondary)
                 .ignoresSafeArea()
             
@@ -60,8 +59,9 @@ struct Notifications: View {
                 } message: {
                     Text("Para receber notificações, vá em Ajustes → Notificações → Faltapp e ative.")
                 }
-            
         }
+        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
     }
     
     // MARK: - Funções de notificação

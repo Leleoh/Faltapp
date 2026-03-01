@@ -44,7 +44,7 @@ struct AddMateriaModal: View {
                 Form{
                     Section(header: Text("Nome da matéria")){
                         TextField("Insira aqui o nome da matéria", text: $nome)
-                            .padding(.leading, 8)
+                            .padding(.leading, 16)
                     }
                     .foregroundStyle(.white)
                     .padding(.leading, -16)
@@ -139,7 +139,7 @@ struct AddMateriaModal: View {
             
             
             
-            .navigationTitle("Adicionar matéria")
+            .navigationTitle("Nova matéria")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

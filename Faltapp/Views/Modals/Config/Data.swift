@@ -51,7 +51,8 @@ struct Data: View {
             .padding(.top, 16)
             .padding(.horizontal, 16)
         }
-        
+        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
+        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .alert("Deseja realmente deletar todas as matérias?", isPresented: $showConfirmation) {
                     Button("Cancelar", role: .cancel) {}
                     Button("Deletar", role: .destructive) {

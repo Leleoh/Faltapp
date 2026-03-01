@@ -1,13 +1,5 @@
-//
-//  ContentView.swift
-//  Faltapp
-//
-//  Created by Leonel Ferraz Hernandez on 06/08/25.
-//
-
 import SwiftUI
 import SwiftData
-
 
 struct MainView: View {
     
@@ -15,112 +7,166 @@ struct MainView: View {
     
     @State private var showAddMateriaModal: Bool = false
     @State private var showAddFaltaModal: Bool = false
-//    @Binding var materias: [Materia]
     @Query var materias: [Materia]
     
     @State private var materiaSelecionada: Materia?
+    @AppStorage("ticketsRU") private var ticketsRU: String = ""
     
-    
+    @FocusState private var isInputFocused: Bool
     
     var body: some View {
-        
-        VStack(spacing: 0){
-            
-
-            
-            // MARK: Empty state
-            if materias.isEmpty{
-                VStack{
-                    //Imagem do empty state
-                    Image(systemName: "books.vertical.fill")
-                        .resizable()
-                        .frame(width: 62, height: 61)
-                        .foregroundColor(Color(UIColor.tertiaryLabel))
-                    
-                    //Label empty
-                    Text("Nenhuma matéria adicionada")
-                        .fontWeight(.semibold)
-                    
-                    //Texto complementar
-                    Text("Adicione uma matéria e ela será mostrada aqui")
-                        .foregroundColor(Color(UIColor.secondaryLabel))
-                        .padding(.top, 8)
-                    
-                    Button(action: {
-                        showAddMateriaModal = true
-                    }){
-                        Text("Adicionar matéria")
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(
-                                RoundedRectangle(cornerRadius: 40)
-                                    .fill(Color(UIColor.systemBlue))
-                            )
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 24)
-                }
-                .frame(maxWidth: .infinity, maxHeight:.infinity)
-                .background(Color(UIColor.mainColorBG))
-                .toolbarBackground(Color(UIColor.tabViewBG), for: .tabBar)
-                .toolbarBackgroundVisibility(.visible, for: .tabBar)
-            }//Fim do if
-            else{
-                ScrollView {
-                    VStack(spacing: 16) {
-                        // ✅ Iteramos pelos índices para poder modificar o array
-                        ForEach(materias) { materia in
-                            CardMateria(
-                                materia: materia, progress: Double(materia.faltas) / Double(materia.maximoFaltas),
-                                onAdicionarFalta: {novasDatas in 
-                                    // Quando o botão no card é clicado, definimos a matéria a ser editada
-                                    materia.datasFaltas = novasDatas
-                                    try? modelContext.save()
-                                }
-                            )
-                        }
-                    }
-                    .padding(.top, 32)
-                    .padding(.horizontal, 8)
-                }
-                .background(Color(UIColor.systemBackground))
-            }
-        }
-            
-            
-            
-            
-        .navigationTitle("Matérias")
-        .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
-        .toolbarVisibility(.visible, for: .navigationBar)
-        .toolbarBackground(Color(UIColor.tabViewBG), for: .tabBar)
-        .toolbarBackgroundVisibility(.visible, for: .tabBar)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showAddMateriaModal = true
-                } label: {
-                    Image("AddMateria")
-                        .resizable()
-                        .frame(width: 34, height: 34)
-                        .scaledToFit()
-                }
-            }
-        }
-        
-        .sheet(isPresented: $showAddMateriaModal) {
-            AddMateriaModal{ materia in
-                modelContext.insert(materia)
-                showAddMateriaModal = false
+        GeometryReader { geometry in
+            ZStack {
+                // Fundo Global (Cinza) - Área do Título
+                Color(UIColor.tertiarySystemBackground)
+                    .ignoresSafeArea()
                 
+                if materias.isEmpty {
+                    // MARK: - Empty State
+                    VStack {
+                        Image(systemName: "books.vertical.fill")
+                            .resizable()
+                            .frame(width: 62, height: 61)
+                            .foregroundColor(Color(UIColor.tertiaryLabel))
+                        
+                        Text("Nenhuma matéria adicionada")
+                            .fontWeight(.semibold)
+                        
+                        Text("Adicione uma matéria e ela será mostrada aqui")
+                            .foregroundColor(Color(UIColor.secondaryLabel))
+                            .padding(.top, 8)
+                        
+                        Button(action: {
+                            showAddMateriaModal = true
+                        }){
+                            Text("Adicionar matéria")
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 40)
+                                        .fill(Color(UIColor.systemBlue))
+                                )
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 24)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight:.infinity)
+                    
+                } else {
+                    // MARK: - Lista com Scroll
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            
+                            LazyVStack(spacing: 16) {
+                                HStack {
+                                    TextField("Tickets do RU", text: $ticketsRU)
+                                        // 2. Vincula o TextField ao controle de foco
+                                        .focused($isInputFocused)
+                                        .keyboardType(.numberPad)
+                                        .multilineTextAlignment(.center)
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .padding(.vertical, 10)
+                                        .frame(width: 160)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color(UIColor.systemGray3), lineWidth: 1)
+                                        )
+                                        .onChange(of: ticketsRU) { _, newValue in
+                                            let filtered = newValue.filter(\.isNumber)
+                                            ticketsRU = String(filtered.prefix(6))
+                                        }
+                                }
+                                .padding(.top, 12)
+                                
+                                ForEach(materias) { materia in
+                                    CardMateria(
+                                        materia: materia,
+                                        progress: Double(materia.faltas) / Double(materia.maximoFaltas),
+                                        onAdicionarFalta: { novasDatas in
+                                            materia.datasFaltas = novasDatas
+                                            try? modelContext.save()
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.bottom, 100)
+                            
+                            Spacer()
+                        }
+                        .frame(minHeight: geometry.size.height)
+                        .background(Color(UIColor.systemBackground))
+                    }
+                    .scrollDismissesKeyboard(.interactively)
+                    .ignoresSafeArea(edges: .bottom)
+                }
+            }
+            // MARK: - Modificadores de Navegação
+            .navigationTitle("Matérias")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(Color(UIColor.tertiarySystemBackground), for: .navigationBar)
+            .toolbarVisibility(.visible, for: .navigationBar)
+            
+            .toolbarBackground(.visible, for: .tabBar)
+            .toolbarBackground(Color(UIColor.tabViewBG), for: .tabBar)
+            
+            .toolbar {
+                // 3. Adiciona a barra acima do teclado numérico
+                if isInputFocused {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer() // Empurra pra direita
+                        Button("OK") {
+                            isInputFocused = false
+                        }
+                        .fontWeight(.bold)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showAddMateriaModal = true
+                    } label: {
+                        Image("AddMateria")
+                            .resizable()
+                            .frame(width: 34, height: 34)
+                            .scaledToFit()
+                    }
+                }
+            }
+            .sheet(isPresented: $showAddMateriaModal) {
+                AddMateriaModal{ materia in
+                    modelContext.insert(materia)
+                    showAddMateriaModal = false
+                }
             }
         }
-            
-        }//Fim da some view
-    }//Fim da view principal
-    
-    
+    }
+}
+
 #Preview {
-    MainView()
+    let container = try! ModelContainer(
+        for: Materia.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    
+    let context = container.mainContext
+    
+    context.insert(
+        Materia(
+            titulo: "Cálculo I",
+            maximoFaltas: 20,
+            faltasSegunda: 2,
+            faltasTerca: 0,
+            faltasQuarta: 1,
+            faltasQuinta: 0,
+            faltasSexta: 0,
+            faltasSabado: 0
+        )
+    )
+    
+    return NavigationStack {
+        MainView()
+    }
+    .modelContainer(container)
 }

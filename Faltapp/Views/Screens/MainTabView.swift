@@ -18,19 +18,16 @@ struct MainTabView: View {
         TabView {
             NavigationStack {
                 MainView()
-                    .navigationTitle(Text("Matérias"))
-                    .toolbarBackgroundVisibility(.visible)
+//                    .navigationTitle(Text("Configurações"))
+//                    .toolbarBackgroundVisibility(.visible)
+                
             }
             .tabItem {
                 Image(systemName: "list.clipboard.fill")
                 Text("Faltas")
             }
             
-            NavigationStack {
-                ConfigsView()
-                    .navigationTitle(Text("Configurações"))
-                    .toolbarBackgroundVisibility(.visible)
-            }
+            ConfigsView()
             .tabItem {
                 Image(systemName: "gearshape.2.fill")
                 Text("Configurações")
