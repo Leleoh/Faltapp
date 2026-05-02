@@ -32,6 +32,12 @@ struct MainTabView: View {
                 Image(systemName: "gearshape.2.fill")
                 Text("Configurações")
             }
+            
+            TutorsView()
+            .tabItem {
+                Image(systemName: "graduationcap.fill")
+                Text("Tutores")
+            }
         }
         .sheet(isPresented: $showAddMateriaModal) {
             AddMateriaModal { materia in
