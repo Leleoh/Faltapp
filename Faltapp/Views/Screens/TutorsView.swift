@@ -41,8 +41,11 @@ struct TutorsView: View {
                         .shadow(color: .indigo.opacity(0.3), radius: 5, x: 0, y: 3)
                         
                         ForEach(tutores) { tutor in
-                            TutorCardView(tutor: tutor)
-                                .padding(.horizontal)
+                            NavigationLink(destination: TutorDetailView(tutor: tutor)) {
+                                TutorCardView(tutor: tutor)
+                                    .padding(.horizontal)
+                            }
+                            .buttonStyle(PlainButtonStyle()) // Pra não ficar azul de link padrão
                         }
                     }
                     .padding(.vertical)

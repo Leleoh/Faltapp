@@ -18,7 +18,9 @@ struct Tutor: Identifiable {
             titulacao: "Mestre em Ensino de Matemática na UFRGS",
             materias: [
                 "Cálculo I", "Cálculo II", "Álgebra Linear", "Equações Diferenciais",
-                "Prob. e Estatística", "Física I - C", "Química Fundamental"
+                "Matemática Aplicada", "Métodos Aplicados I", "Métodos Aplicados II",
+                "Prob. e Estatística", "Cálculo Numérico", "Matemática Discreta",
+                "Física I - C", "Física - Eletromag.", "Química Fundamental", "Química Geral Teórica"
             ],
             areaGeral: "Exatas",
             precoPorHora: "A combinar",

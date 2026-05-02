@@ -103,41 +103,25 @@ struct TutorCardView: View {
                 }
             }
             
-            // Biografia
+            // Biografia Resumida
             Text(tutor.biografia)
                 .font(.footnote)
                 .foregroundColor(.primary.opacity(0.8))
-                .lineLimit(4)
+                .lineLimit(2)
                 .padding(.top, 4)
             
-            // Botão Contato
-            Button(action: {
-                let mensagem = "Olá! Te encontrei no Faltapp e gostaria de saber mais sobre as aulas particulares."
-                let mensagemEncoded = mensagem.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-                let urlString = "whatsapp://send?phone=\(tutor.telefone)&text=\(mensagemEncoded)"
-                if let url = URL(string: urlString) {
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url)
-                    } else {
-                        // Fallback pra web
-                        if let webUrl = URL(string: "https://wa.me/\(tutor.telefone)?text=\(mensagemEncoded)") {
-                            UIApplication.shared.open(webUrl)
-                        }
-                    }
-                }
-            }) {
-                HStack {
-                    Image(systemName: "message.fill")
-                    Text("Contato WhatsApp")
-                        .fontWeight(.bold)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(LinearGradient(colors: [.teal, .blue], startPoint: .leading, endPoint: .trailing))
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(color: .teal.opacity(0.3), radius: 5, x: 0, y: 3)
+            // Um pequeno indicativo de que é clicável
+            HStack {
+                Spacer()
+                Text("Ver Detalhes")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.teal)
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+                    .foregroundColor(.teal)
             }
+            .padding(.top, 4)
         }
         .padding(20)
         .background(.ultraThinMaterial) // Efeito Glassmorphism
