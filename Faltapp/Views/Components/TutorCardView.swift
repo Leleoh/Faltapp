@@ -54,6 +54,31 @@ struct TutorCardView: View {
                 }
             }
             
+            // Área Geral e Preço
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("ÁREA GERAL")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    
+                    Text(tutor.areaGeral)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text("PREÇO")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    
+                    Text(tutor.precoPorHora)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                }
+            }
+            
             // Matérias (Tags)
             VStack(alignment: .leading, spacing: 8) {
                 Text("MATÉRIAS")
@@ -78,38 +103,6 @@ struct TutorCardView: View {
                 }
             }
             
-            // Avaliação e Preço
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 2) {
-                        Text(String(format: "%.1f", tutor.avaliacao))
-                            .font(.headline)
-                            .fontWeight(.bold)
-                        
-                        ForEach(0..<5) { _ in
-                            Image(systemName: "star.fill")
-                                .font(.caption)
-                                .foregroundColor(.yellow)
-                        }
-                    }
-                    Text("(\(tutor.quantidadeAvaliacoes) avaliações)")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text("PREÇO")
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                    
-                    Text(tutor.precoPorHora)
-                        .font(.headline)
-                        .fontWeight(.bold)
-                }
-            }
-            
             // Biografia
             Text(tutor.biografia)
                 .font(.footnote)
@@ -119,13 +112,15 @@ struct TutorCardView: View {
             
             // Botão Contato
             Button(action: {
-                let urlString = "whatsapp://send?phone=\(tutor.telefone)"
+                let mensagem = "Olá! Te encontrei no Faltapp e gostaria de saber mais sobre as aulas particulares."
+                let mensagemEncoded = mensagem.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                let urlString = "whatsapp://send?phone=\(tutor.telefone)&text=\(mensagemEncoded)"
                 if let url = URL(string: urlString) {
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     } else {
                         // Fallback pra web
-                        if let webUrl = URL(string: "https://wa.me/\(tutor.telefone)") {
+                        if let webUrl = URL(string: "https://wa.me/\(tutor.telefone)?text=\(mensagemEncoded)") {
                             UIApplication.shared.open(webUrl)
                         }
                     }

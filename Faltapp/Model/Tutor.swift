@@ -5,8 +5,7 @@ struct Tutor: Identifiable {
     let nome: String
     let titulacao: String
     let materias: [String]
-    let avaliacao: Double
-    let quantidadeAvaliacoes: Int
+    let areaGeral: String
     let precoPorHora: String // Deixando String pra poder botar "A combinar" ou "Promoção"
     let biografia: String
     let telefone: String
@@ -21,8 +20,7 @@ struct Tutor: Identifiable {
                 "Cálculo I", "Cálculo II", "Álgebra Linear", "Equações Diferenciais",
                 "Prob. e Estatística", "Física I - C", "Química Fundamental"
             ],
-            avaliacao: 5.0,
-            quantidadeAvaliacoes: 42,
+            areaGeral: "Exatas",
             precoPorHora: "A combinar",
             biografia: "Mais de 7 anos de experiência ajudando alunos a superarem desafios nas disciplinas de exatas. As aulas são focadas no seu objetivo, seja revisar conteúdos, aprender conceitos básicos ou aprofundar-se em temas específicos. Ofereço suporte na resolução de listas de exercícios, provas anteriores e esclarecimento de dúvidas pontuais. Condições especiais para turmas com 3 ou mais pessoas!",
             telefone: "5551989114039", // Formato internacional pro link do whats
