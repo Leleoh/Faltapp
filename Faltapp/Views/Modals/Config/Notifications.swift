@@ -60,8 +60,8 @@ struct Notifications: View {
                     Text("Para receber notificações, vá em Ajustes → Notificações → Faltapp e ative.")
                 }
         }
-        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
-        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     // MARK: - Funções de notificação
@@ -104,18 +104,29 @@ struct Notifications: View {
         content.body = "Não esqueça de marcar suas faltas de hoje 📅"
         content.sound = .default
         
-        var dateComponents = DateComponents()
-        dateComponents.hour = 21
-        dateComponents.minute = 30
+        // Remove existing notifications first
+        cancelNotifications()
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: "daily_reminder", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request)
+        // Weekdays: 2 (Monday) to 6 (Friday)
+        for weekday in 2...6 {
+            var dateComponents = DateComponents()
+            dateComponents.hour = 21
+            dateComponents.minute = 30
+            dateComponents.weekday = weekday
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "daily_reminder_\(weekday)", content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request)
+        }
     }
     
     private func cancelNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["daily_reminder"])
+        var identifiers = ["daily_reminder"]
+        for weekday in 2...6 {
+            identifiers.append("daily_reminder_\(weekday)")
+        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 }
 

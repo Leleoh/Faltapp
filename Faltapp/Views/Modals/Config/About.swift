@@ -43,8 +43,8 @@ struct About: View {
             }
             .padding(.horizontal)
         }
-        .toolbarBackground(Color(UIColor.backgroundsSecondary), for: .navigationBar)
-        .toolbarBackgroundVisibility(.visible, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

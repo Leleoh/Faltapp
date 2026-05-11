@@ -14,9 +14,22 @@
 		D7F4C1402E4429CB00479C42 /* Faltapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faltapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D791D8EC2FB294760066EBFC /* Exceptions for "Faltapp" folder in "Faltapp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D7F4C13F2E4429CB00479C42 /* Faltapp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D7F4C1422E4429CB00479C42 /* Faltapp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D791D8EC2FB294760066EBFC /* Exceptions for "Faltapp" folder in "Faltapp" target */,
+			);
 			path = Faltapp;
 			sourceTree = "<group>";
 		};
@@ -265,6 +278,7 @@
 				DEVELOPMENT_TEAM = RX54746WSR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Faltapp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Faltapp UFRGS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -296,6 +310,7 @@
 				DEVELOPMENT_TEAM = RX54746WSR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Faltapp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Faltapp UFRGS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
