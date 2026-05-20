@@ -15,7 +15,7 @@ struct Tutor: Identifiable {
     static let mocks: [Tutor] = [
         Tutor(
             nome: "Gabriel Ribeiro Padilha",
-            titulacao: "Mestre em Ensino de Matemática na UFRGS",
+            titulacao: "Doutorando em Educação em Ciências e Mestre em Ensino de Matemática pela UFRGS",
             materias: [
                 "Cálculo I", "Cálculo II", "Álgebra Linear", "Equações Diferenciais",
                 "Matemática Aplicada", "Métodos Aplicados I", "Métodos Aplicados II",
