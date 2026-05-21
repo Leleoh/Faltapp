@@ -24,6 +24,8 @@ struct MainView: View {
                 if materias.isEmpty {
                     // MARK: - Empty State
                     VStack {
+                        Spacer()
+                        
                         Image(systemName: "books.vertical.fill")
                             .resizable()
                             .frame(width: 62, height: 61)
@@ -50,6 +52,56 @@ struct MainView: View {
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 24)
+                        
+                        Spacer()
+                        
+                        // Banner de Promoção do Instagram no Empty State
+                        Button(action: {
+                            if let appURL = URL(string: "instagram://user?username=leonel.ferraz"),
+                               UIApplication.shared.canOpenURL(appURL) {
+                                UIApplication.shared.open(appURL)
+                            } else if let webURL = URL(string: "https://instagram.com/leonel.ferraz") {
+                                UIApplication.shared.open(webURL)
+                            }
+                        }) {
+                            HStack(spacing: 12) {
+                                LinearGradient(
+                                    colors: [.purple, .pink, .orange],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                .frame(width: 32, height: 32)
+                                .mask(
+                                    Image(systemName: "camera.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                )
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Acompanhe as novidades!")
+                                        .font(.subheadline)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.primary)
+                                    Text("Siga o criador do Faltapp no Instagram")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
+                                    .font(.footnote)
+                            }
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color(UIColor.secondarySystemBackground))
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 48)
                     }
                     .frame(maxWidth: .infinity, maxHeight:.infinity)
                     
