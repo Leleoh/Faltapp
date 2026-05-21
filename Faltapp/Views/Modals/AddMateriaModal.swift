@@ -6,21 +6,16 @@
 //
 
 import SwiftUI
-import TipKit
-
-struct AddTip: Tip {
-    var title: Text {
-        Text("Dica")
-    }
-    
-    var message: Text? {
-        Text("O nome será usado para identificar a matéria na lista.")
-    }
-}
+import SwiftData
 
 
 struct AddMateriaModal: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.modelContext) var modelContext
+    
+    var materia: Materia? = nil
+    
+    var isEditando: Bool { materia != nil }
     
     @State private var nome = ""
     
@@ -49,7 +44,7 @@ struct AddMateriaModal: View {
                 Form{
                     Section(header: Text("Nome da matéria")){
                         TextField("Insira aqui o nome da matéria", text: $nome)
-                            .padding(.leading, 8)
+                            .padding(.leading, 16)
                     }
                     .foregroundStyle(.white)
                     .padding(.leading, -16)
@@ -134,22 +129,36 @@ struct AddMateriaModal: View {
                     
                 }
             //Fim vstack
-//            .onTapGesture {
-////                UIApplication.shared.dismissKeyboard()
-//            }
+            .simultaneousGesture(
+            TapGesture().onEnded { _ in
+                UIApplication.shared.dismissKeyboard()
+            }
+        )
             
             
             
             
             
-            .navigationTitle("Adicionar matéria")
+            .navigationTitle("Nova matéria")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Adicionar") {
-                        let materia = Materia(titulo: nome, maximoFaltas: limiteFaltas)
+                        let materia = Materia(
+                            titulo: nome,
+                            maximoFaltas: limiteFaltas,
+                            faltasSegunda: faltasSegunda,
+                            faltasTerca: faltasTerca,
+                            faltasQuarta: faltasQuarta,
+                            faltasQuinta: faltasQuinta,
+                            faltasSexta: faltasSexta,
+                            faltasSabado: faltasSabado
+                        )
                         print("Criado")
-                        AddMateria(materia)
+//                        AddMateria(materia)
+                        print(materia.titulo, materia.maximoFaltas)
+                        modelContext.insert(materia)
+                        try? modelContext.save()
                         dismiss()
                     }
                     .disabled(nome.isEmpty)

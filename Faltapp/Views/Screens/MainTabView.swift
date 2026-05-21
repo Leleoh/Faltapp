@@ -17,32 +17,23 @@ struct MainTabView: View {
         
         TabView {
             NavigationStack {
-                MainView(materias: $materias)
-                    .navigationTitle(Text("Matérias"))
-                    .toolbarBackgroundVisibility(.visible)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                showAddMateriaModal = true
-                            } label: {
-                                Image("AddMateria")
-                                    .resizable()
-                                    .frame(width: 34, height: 34)
-                                    .scaledToFit()
-                            }
-                        }
-                    }
+                MainView()
+//                    .navigationTitle(Text("Configurações"))
+//                    .toolbarBackgroundVisibility(.visible)
+                
             }
             .tabItem {
                 Image(systemName: "list.clipboard.fill")
                 Text("Faltas")
             }
             
-            NavigationStack {
-                ConfigsView()
-                    .navigationTitle(Text("Configurações"))
-                    .toolbarBackgroundVisibility(.visible)
+            TutorsView()
+            .tabItem {
+                Image(systemName: "graduationcap.fill")
+                Text("Tutores")
             }
+            
+            ConfigsView()
             .tabItem {
                 Image(systemName: "gearshape.2.fill")
                 Text("Configurações")

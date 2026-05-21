@@ -6,25 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct Materia: Identifiable{
-    var id = UUID()
-    var titulo: String
-    var maximoFaltas: Int
-    
-    var datasFaltas: [Date] = []
-    
-    var faltas: Int {
-            return datasFaltas.count
-        }
-    
-//    init(id: UUID = UUID(), titulo: String, maximoFaltas: Int, datasFaltas: [Date] = []) {
-//            self.id = id
-//            self.titulo = titulo
-//            self.maximoFaltas = maximoFaltas
-//            self.datasFaltas = datasFaltas
-//        }
-}
 
 struct CardMateria: View {
     
@@ -45,11 +28,12 @@ struct CardMateria: View {
     }
     
     
-    let materia: Materia
+    var materia: Materia
     var progress: Double
     
     
     @State private var showAddFaltaModal: Bool = false
+    @State private var showEditMateriaModal: Bool = false
     @State private var datasFaltas: [Date] = []
     
 //    var onAdicionarFalta: (() -> Void)?
@@ -69,10 +53,19 @@ struct CardMateria: View {
                         .padding(.leading, 16)
                     Spacer()
                     
-                    Image(systemName: "square.and.pencil")
-                        .foregroundStyle(.blue)
-                        .font(.system(size: 28))
-                        .padding(.trailing, 16)
+                    Button {
+                        showEditMateriaModal = true
+                    }label: {
+                        Image(systemName: "square.and.pencil")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: 28))
+                            .padding(.trailing, 16)
+                    }
+                    .sheet(isPresented: $showEditMateriaModal) {
+                        EditMateriaModal(materia: materia)
+                    }
+                    
+                    
                         
                 }
             }//Fim da ZStack
@@ -89,7 +82,7 @@ struct CardMateria: View {
                     
                     Text("\(materia.faltas)/\(materia.maximoFaltas)")
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(.labelsPrimary)
                 }
                 
                 Spacer()
@@ -113,7 +106,7 @@ struct CardMateria: View {
                         showAddFaltaModal = true
 //                        onAdicionarFalta?()
                     }label: {
-                        Text("Adicionar falta")
+                        Text("Registrar faltas")
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .frame(height: 28)
@@ -125,13 +118,15 @@ struct CardMateria: View {
                     }
                     .padding(.top, 8)
                     .sheet(isPresented: $showAddFaltaModal){
-                        AddFaltaModal(faltasAtuais: datasFaltas){ novasDatas in
-                            onAdicionarFalta?(novasDatas) // Envia para a main
+                        AddFaltaModal(materia: materia){ novasDatas in
+//                            onAdicionarFalta?(novasDatas) // Envia para a main
+                            materia.datasFaltas = novasDatas
                             showAddFaltaModal = false
                         }
                     }
                     
                 }
+                
 
                 Spacer()
             }
