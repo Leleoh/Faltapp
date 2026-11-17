@@ -73,7 +73,7 @@ struct Notifications: View {
             switch settings.authorizationStatus {
             case .authorized, .provisional, .ephemeral:
                 // Já tem permissão, agenda normalmente
-                scheduleDailyReminder()
+                NotificationScheduler.scheduleDailyReminder()
             case .denied:
                 // Usuário negou permissão, mostra alerta
                 DispatchQueue.main.async {
@@ -85,7 +85,7 @@ struct Notifications: View {
                 center.requestAuthorization(options: [.alert, .sound]) { granted, _ in
                     DispatchQueue.main.async {
                         if granted {
-                            scheduleDailyReminder()
+                            NotificationScheduler.scheduleDailyReminder()
                         } else {
                             notificationsEnabled = false
                             showSettingsAlert = true
@@ -98,7 +98,17 @@ struct Notifications: View {
         }
     }
     
-    private func scheduleDailyReminder() {
+    private func cancelNotifications() {
+        NotificationScheduler.cancelNotifications()
+    }
+}
+
+enum NotificationScheduler {
+    private static let legacyIdentifier = "daily_reminder"
+    private static let migrationKey = "didMigrateWeekdayNotifications"
+    private static let enabledKey = "notifications_enabled"
+    
+    static func scheduleDailyReminder() {
         let content = UNMutableNotificationContent()
         content.title = "Registrar faltas"
         content.body = "Não esqueça de marcar suas faltas de hoje 📅"
@@ -121,12 +131,37 @@ struct Notifications: View {
         }
     }
     
-    private func cancelNotifications() {
-        var identifiers = ["daily_reminder"]
+    static func cancelNotifications() {
+        var identifiers = [legacyIdentifier]
         for weekday in 2...6 {
             identifiers.append("daily_reminder_\(weekday)")
         }
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: identifiers)
+    }
+    
+    /// Remove a notificação diária legada (que disparava inclusive sábados e domingos)
+    /// e reagenda apenas de segunda a sexta caso o lembrete esteja ativado.
+    static func migrateLegacyNotificationsIfNeeded() {
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: migrationKey) else { return }
+        
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [legacyIdentifier])
+        center.removeDeliveredNotifications(withIdentifiers: [legacyIdentifier])
+        
+        if defaults.bool(forKey: enabledKey) {
+            center.getNotificationSettings { settings in
+                switch settings.authorizationStatus {
+                case .authorized, .provisional, .ephemeral:
+                    scheduleDailyReminder()
+                default:
+                    break
+                }
+            }
+        }
+        
+        defaults.set(true, forKey: migrationKey)
     }
 }
 

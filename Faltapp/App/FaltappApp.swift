@@ -15,6 +15,9 @@ struct FaltappApp: App {
         WindowGroup {
             MainTabView()
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    NotificationScheduler.migrateLegacyNotificationsIfNeeded()
+                }
         }
         .modelContainer(for: Materia.self)
     }
