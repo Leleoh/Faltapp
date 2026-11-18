@@ -119,7 +119,7 @@ struct CardMateria: View {
                     .padding(.top, 8)
                     .sheet(isPresented: $showAddFaltaModal){
                         AddFaltaModal(materia: materia){ novasDatas in
-//                            onAdicionarFalta?(novasDatas) // Envia para a main
+                            onAdicionarFalta?(novasDatas)
                             materia.datasFaltas = novasDatas
                             showAddFaltaModal = false
                         }

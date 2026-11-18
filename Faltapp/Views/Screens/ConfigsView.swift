@@ -57,12 +57,6 @@ struct ConfigsView: View {
                             configItem(titulo: "Suporte e contato")
                         }
                         .buttonStyle(.plain)
-                        Divider()
-                        
-                        NavigationLink(destination: QuickLinksView()){
-                            configItem(titulo: "Links rápidos")
-                        }
-                        .buttonStyle(.plain)
                     }
                     .background(Color(UIColor.tertiarySystemBackground))
                     .cornerRadius(10)

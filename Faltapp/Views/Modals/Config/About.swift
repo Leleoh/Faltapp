@@ -34,7 +34,7 @@ struct About: View {
                 Text("Desenvolvido por Leonel Ferraz")
                     .font(.title2)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text("V1.2")
+                Text("V1.4")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)

@@ -28,7 +28,7 @@ struct Data: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 
-                Text("O Faltapp não armazena nenhum dado sobre as faltas e nem faz tratamento sobre eles. Não há conexão entre a UFRGS e o app. Os dados são armazenados localmente no seu dispositivo.")
+                Text("Os dados das suas matérias e faltas são armazenados apenas localmente no seu dispositivo. Caso você opte por ativar a sincronização automática dos tickets do RU, suas credenciais ficam salvas exclusivamente no Keychain do seu iPhone e são usadas apenas para consultar seu saldo no Portal da UFRGS.")
                     .padding(.top, 1)
                     .multilineTextAlignment(.leading)
         

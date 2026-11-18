@@ -4,13 +4,20 @@ import SwiftData
 struct MainView: View {
     
     @Environment(\.modelContext) var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     
     @State private var showAddMateriaModal: Bool = false
     @State private var showAddFaltaModal: Bool = false
+    @State private var showRUSyncModal: Bool = false
+    @State private var isSyncingRU: Bool = false
+    @State private var isRUSyncConnected: Bool = KeychainHelper.hasCredentials
     @Query var materias: [Materia]
     
     @State private var materiaSelecionada: Materia?
     @AppStorage("ticketsRU") private var ticketsRU: String = ""
+    @AppStorage("ticketsRURestantes") private var ticketsRURestantes: String = ""
+    @AppStorage("hasSeenRUSyncTip") private var hasSeenRUSyncTip: Bool = false
+    @AppStorage("lastRUSyncTimestamp") private var lastRUSyncTimestamp: Double = 0
     
     @FocusState private var isInputFocused: Bool
     
@@ -111,30 +118,84 @@ struct MainView: View {
                         VStack(spacing: 0) {
                             
                             LazyVStack(spacing: 16) {
-                                HStack {
-                                    TextField("Tickets do RU", text: $ticketsRU)
-                                        // 2. Vincula o TextField ao controle de foco
-                                        .focused($isInputFocused)
-                                        .keyboardType(.numberPad)
-                                        .multilineTextAlignment(.center)
-                                        .font(.system(size: 20, weight: .semibold))
-                                        .padding(.vertical, 10)
-                                        .frame(width: 160)
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(UIColor.systemGray3), lineWidth: 1)
-                                        )
-                                        .onChange(of: ticketsRU) { _, newValue in
-                                            let filtered = newValue.filter(\.isNumber)
-                                            ticketsRU = String(filtered.prefix(6))
+                                VStack(spacing: 8) {
+                                    HStack(spacing: 10) {
+                                        TextField("Ticket do RU", text: $ticketsRU)
+                                            .focused($isInputFocused)
+                                            .keyboardType(.numberPad)
+                                            .multilineTextAlignment(.center)
+                                            .font(.system(size: 20, weight: .semibold))
+                                            .padding(.vertical, 10)
+                                            .frame(width: 150)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(Color(UIColor.systemGray3), lineWidth: 1)
+                                            )
+                                            .onChange(of: ticketsRU) { _, newValue in
+                                                let filtered = newValue.filter(\.isNumber)
+                                                ticketsRU = String(filtered.prefix(6))
+                                            }
+                                        
+                                        if isRUSyncConnected && !ticketsRURestantes.isEmpty {
+                                            HStack(spacing: 5) {
+                                                Image(systemName: "ticket.fill")
+                                                    .font(.caption)
+                                                Text("\(ticketsRURestantes) rest.")
+                                                    .font(.subheadline.weight(.semibold))
+                                            }
+                                            .foregroundColor(.green)
+                                            .padding(.horizontal, 12)
+                                            .frame(height: 44)
+                                            .background(Color.green.opacity(0.14))
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
                                         }
+                                        
+                                        Button {
+                                            showRUSyncModal = true
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .fill(isRUSyncConnected ? Color.green.opacity(0.15) : Color(UIColor.secondarySystemBackground))
+                                                    .frame(width: 44, height: 44)
+                                                
+                                                if isSyncingRU {
+                                                    ProgressView()
+                                                } else {
+                                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                                        .font(.system(size: 17, weight: .semibold))
+                                                        .foregroundColor(isRUSyncConnected ? .green : .blue)
+                                                }
+                                            }
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel("Sincronizar tickets do RU")
+                                    }
+                                    
+                                    if !isRUSyncConnected && !hasSeenRUSyncTip {
+                                        Button {
+                                            hasSeenRUSyncTip = true
+                                            isInputFocused = false
+                                            showRUSyncModal = true
+                                        } label: {
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "info.circle")
+                                                Text("Toque em ↻ para sincronizar ticket e saldo com o Portal")
+                                            }
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                        }
+                                        .buttonStyle(.plain)
+                                    }
                                 }
                                 .padding(.top, 12)
                                 
                                 ForEach(materias) { materia in
+                                    let progress = materia.maximoFaltas > 0
+                                        ? Double(materia.faltas) / Double(materia.maximoFaltas)
+                                        : 0
                                     CardMateria(
                                         materia: materia,
-                                        progress: Double(materia.faltas) / Double(materia.maximoFaltas),
+                                        progress: progress,
                                         onAdicionarFalta: { novasDatas in
                                             materia.datasFaltas = novasDatas
                                             try? modelContext.save()
@@ -192,6 +253,48 @@ struct MainView: View {
                     showAddMateriaModal = false
                 }
             }
+            .sheet(isPresented: $showRUSyncModal) {
+                RUSyncModal(ticketsRU: $ticketsRU, ticketsRURestantes: $ticketsRURestantes) {
+                    isRUSyncConnected = KeychainHelper.hasCredentials
+                    if isRUSyncConnected {
+                        hasSeenRUSyncTip = true
+                        lastRUSyncTimestamp = Date().timeIntervalSince1970
+                    }
+                }
+            }
+            .task {
+                await syncTicketsIfNeeded()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    Task {
+                        await syncTicketsIfNeeded()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func syncTicketsIfNeeded() async {
+        isRUSyncConnected = KeychainHelper.hasCredentials
+        guard let credentials = KeychainHelper.loadCredentials() else { return }
+        
+        // Evita múltiplas requisições se acabou de sincronizar (intervalo mínimo de 5 minutos)
+        let now = Date().timeIntervalSince1970
+        guard now - lastRUSyncTimestamp > 300 else { return }
+        
+        isSyncingRU = true
+        defer { isSyncingRU = false }
+        
+        if let info = try? await RUTicketSyncService.fetchTicketsInfo(
+            username: credentials.username,
+            password: credentials.password
+        ) {
+            ticketsRURestantes = String(info.availableCount)
+            if let code = info.ticketCode {
+                ticketsRU = code
+            }
+            lastRUSyncTimestamp = Date().timeIntervalSince1970
         }
     }
 }
