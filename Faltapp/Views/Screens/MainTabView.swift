@@ -27,10 +27,10 @@ struct MainTabView: View {
                 Text("Faltas")
             }
             
-            TutorsView()
+            UFRGSView()
             .tabItem {
-                Image(systemName: "graduationcap.fill")
-                Text("Tutores")
+                Image(systemName: "building.columns.fill")
+                Text("UFRGS")
             }
             
             ConfigsView()

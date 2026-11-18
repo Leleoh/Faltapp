@@ -44,14 +44,17 @@ struct AddFaltaModal: View {
         
         NavigationView{
             
-            VStack(){
-                Text("Você pode clicar nos dias em que faltou para adicionar ou remover faltas.")
-                    .font(.title2)
-                    .padding(.top, 80)
-                    .padding(.horizontal, 16)
-                    .multilineTextAlignment(.center)
-                    
-                Spacer()
+            VStack(spacing: 16) {
+                VStack(spacing: 6) {
+                    Text(materia.titulo)
+                        .font(.headline)
+                    Text("Toque nos dias para adicionar ou remover faltas • \(selectedDates.count)/\(materia.maximoFaltas) faltas")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.top, 12)
+                .padding(.horizontal, 16)
                 
                 CalendarView(
                     materia: materia,
@@ -71,10 +74,9 @@ struct AddFaltaModal: View {
                         }
                     }
                 )
-                .frame(height: 350)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.horizontal, 16)
-                Spacer()
+                .padding(.bottom, 12)
             }
                         
             .navigationTitle(Text("Registrar Falta"))
@@ -128,3 +130,15 @@ struct AddFaltaModal: View {
     }
 }
 
+#Preview {
+    let sampleMateria = Materia(
+        titulo: "Cálculo I",
+        maximoFaltas: 12,
+        faltasSegunda: 2,
+        faltasQuarta: 4,
+        datasFaltas: [Date()]
+    )
+    
+    AddFaltaModal(materia: sampleMateria) { _ in }
+        .preferredColorScheme(.dark)
+}
